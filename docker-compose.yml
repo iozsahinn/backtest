@@ -50,7 +50,7 @@ services:
       dockerfile: Dockerfile
     container_name: angular_frontend
     ports:
-      - "4200:80"
+      - "80:80"
     depends_on:
       - spring_backend
     networks:
