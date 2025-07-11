@@ -1,0 +1,118 @@
+<div class="portfolio-form-container">
+  <div class="form-content">
+    <h1 class="form-title animate-pulse">Portfolio Creator</h1>
+
+    <!-- Basic Settings Section -->
+    <div class="form-section">
+        <div class="form-row" style="display: flex; gap: 20px; justify-content: flex-start; align-items: center">
+          <div class="form-group small-select">
+            <label class="form-label">Rebalance Frequency</label>
+            <select class="form-select" [(ngModel)]="rebalanceFrequency" name="rebalanceFrequency">
+              <option value="YEARLY">Yearly</option>
+              <option value="QUARTERLY">Quarterly</option>
+              <option value="MONTHLY">Monthly</option>
+              <option value="WEEKLY">Weekly</option>
+              <option value="DAILY">Daily</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Start Date</label>
+            <input type="text" class="form-input" [(ngModel)]="startDate" name="startDate" placeholder="DD.MM.YYYY" pattern="\d{2}\.\d{2}\.\d{4}" maxlength="10" (input)="formatDate($event)" value="01.01.2000">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">End Date</label>
+            <input type="text" class="form-input" [(ngModel)]="endDate" name="endDate" placeholder="DD.MM.YYYY" pattern="\d{2}\.\d{2}\.\d{4}" maxlength="10" (input)="formatDate($event)" value="01.01.2025">
+          </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Initial Investment</label>
+          <input type="number" class="form-input" [(ngModel)]="initialInvestment" name="initialInvestment" placeholder="Enter initial investment amount" min="1">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Monthly Inflow</label>
+          <input type="number" class="form-input" [(ngModel)]="inflow" name="inflow" placeholder="Enter monthly inflow amount" min="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock Allocation Section -->
+    <div class="form-section stocks-section">
+      <div class="section-header">
+        <h3>Stock Allocation</h3>
+        <button type="button" class="add-stock-btn" (click)="addStock()">Add Stock</button>
+      </div>
+
+      <div class="stock-item" *ngFor="let opt of options; let i = index; trackBy: trackByFn">
+        <div class="stock-controls">
+          <div class="form-group">
+            <label class="form-label">Stock Symbol</label>
+            <select class="form-select" [(ngModel)]="opt.stockId" [name]="'stockSelect' + i">
+              <option value="" disabled>Select a stock</option>
+              <option *ngFor="let stock of stocks; trackBy: trackByStockId" [value]="stock.id">
+                {{ stock.symbol }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Percentage (%)</label>
+            <input type="number"
+                   class="form-input"
+                   [(ngModel)]="opt.percentage"
+                   [name]="'percentage' + i"
+                   placeholder="0-100"
+                   min="0"
+                   max="100"
+                   (ngModelChange)="onPercentageChange(i)">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Leverage</label>
+            <input type="number"
+                   class="form-input"
+                   [(ngModel)]="opt.leverage"
+                   [name]="'leverage' + i"
+                   placeholder="Enter leverage"
+                   step="0.1">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">&nbsp;</label>
+            <button type="button" class="remove-btn" (click)="removeStock(i)">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Show message when no stocks added -->
+      <div *ngIf="!options || options.length === 0" class="no-stocks-message">
+        <p>No stocks added yet. Click "Add Stock" to get started.</p>
+      </div>
+    </div>
+
+    <!-- Create Portfolio Button -->
+    <button type="button" class="create-portfolio-btn" (click)="onCreatePortfolio()">
+      Create Portfolio
+    </button>
+    <div style="height: 600px; width: 1400px">
+      <canvas baseChart
+              [data]="lineChartData"
+              [options]="lineChartOptions"
+              [labels]="lineChartLabels"
+              [type]="lineChartType">
+      </canvas>
+    </div>
+    <div>
+      <app-m2-portfolio-correlation>
+      </app-m2-portfolio-correlation>
+      <app-m2-portfolio-correlation-yearly>
+      </app-m2-portfolio-correlation-yearly>
+    </div>
+</div>
+</div>

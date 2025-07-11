@@ -1,0 +1,23 @@
+/* m2-portfolio-correlation.component.scss */
+
+:host {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+div[style] {
+  background-color: #f8f9fa; /* Light gray background */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  height: 400px;
+  position: relative;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}

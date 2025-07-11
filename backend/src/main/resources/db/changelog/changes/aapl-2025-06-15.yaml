@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      failOnError: false
+      id: 2
+      author: admin
+      changes:
+        - insert:
+            tableName: stock
+            columns:
+              - column:
+                  name: name
+                  value: Apple
+              - column:
+                  name: symbol
+                  value: "AAPL"
+              - column:
+                  name: stock_id
+                  type: BIGINT
+                  value: "2"
+        - loadData:
+            file: stock_csv/AAPL_2025-06-15.csv
+            tableName: candle
+            columns:
+              - column:
+                  name: start_time
+                  type: DATE
+                  header: Date
+              - column:
+                  name: close_value
+                  type: numeric
+                  header: Close_Value
+              - column:
+                  name: open_value
+                  type: numeric
+                  header: Open_Value
+              - column:
+                  name: stock_id
+                  type: numeric
+                  defaultValue: "2"

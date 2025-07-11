@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      failOnError: false
+      id: 0
+      author: admin
+      changes:
+        - insert:
+            tableName: stock
+            columns:
+              - column:
+                  name: name
+                  value: "America Monthly M2"
+              - column:
+                  name: symbol
+                  value: "USM2"
+              - column:
+                  name: stock_id
+                  type: BIGINT
+                  value: "6"
+        - loadData:
+            file: m2_csv/america-daily-m2-processed.csv
+            tableName: candle
+            columns:
+              - column:
+                  name: stock_id
+                  type: numeric
+                  defaultValue: "6"
+              - column:
+                  name: start_time
+                  type: DATE
+                  header: start_time
+              - column:
+                  name: close_value
+                  type: numeric
+                  header: close_value
+              - column:
+                  name: open_value
+                  type: numeric
+                  header: open_value
